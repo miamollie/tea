@@ -1,0 +1,8 @@
+package: spec
+generate:
+  types: true
+  spec: true
+  chi-server: true
+import-mapping:
+  ./tea.yml: github.com/miamollie/api/spec/tea
+output: ./spec/generated.go

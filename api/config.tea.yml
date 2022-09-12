@@ -1,0 +1,5 @@
+package: tea
+generate:
+  types: true
+  skip-prune: true
+output: ./spec/tea/generated.go

@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: tea
+
+paths:
+  /teas:
+    get:
+      operationId: getTeas
+      summary: Returns all tea
+      responses:
+        "200":
+          $ref: "#/components/responses/TeasResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./tea.yml#/components/schemas/Error"
+components:
+  responses:
+    TeasResponse:
+      description: List of Teas
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [teas]
+            properties:
+              teas:
+                example:
+                  - $ref: "./tea.yml#/components/examples/teaExample"
+                type: array
+                items:
+                  $ref: "./tea.yml#/components/schemas/Tea"
+
