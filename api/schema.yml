@@ -17,6 +17,38 @@ paths:
             application/json:
               schema:
                 $ref: "./tea.yml#/components/schemas/Error"
+    post:
+      operationId: addTea
+      summary: Add a new tea
+      responses:
+        "200":
+          $ref: "#/components/responses/TeasResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./tea.yml#/components/schemas/Error"
+  /tea/{teaId}:
+    get:
+      operationId: getTea
+      summary: Returns a single tea
+      parameters:
+        - in: path
+          name: teaId
+          description: ID of the tea
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          $ref: "#/components/responses/TeasResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./tea.yml#/components/schemas/Error"
 components:
   responses:
     TeasResponse:
@@ -33,4 +65,10 @@ components:
                 type: array
                 items:
                   $ref: "./tea.yml#/components/schemas/Tea"
+    TeaResponse:
+      description: Single Tea
+      content:
+        application/json:
+          schema:
+              $ref: "./tea.yml#/components/schemas/Tea"
 

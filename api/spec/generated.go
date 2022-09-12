@@ -4,17 +4,37 @@
 package spec
 
 import (
+	"bytes"
+	"compress/gzip"
+	"encoding/base64"
 	"fmt"
 	"net/http"
+	"net/url"
+	"path"
+	"strings"
 
+	"github.com/deepmap/oapi-codegen/pkg/runtime"
+	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/go-chi/chi/v5"
+	externalRef0 "github.com/miamollie/api/spec/tea"
 )
+
+// TeasResponse defines model for TeasResponse.
+type TeasResponse struct {
+	Teas []externalRef0.Tea `json:"teas"`
+}
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// Returns a single tea
+	// (GET /tea/{teaId})
+	GetTea(w http.ResponseWriter, r *http.Request, teaId int)
 	// Returns all tea
 	// (GET /teas)
 	GetTeas(w http.ResponseWriter, r *http.Request)
+	// Add a new tea
+	// (POST /teas)
+	AddTea(w http.ResponseWriter, r *http.Request)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -26,12 +46,53 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc func(http.HandlerFunc) http.HandlerFunc
 
+// GetTea operation middleware
+func (siw *ServerInterfaceWrapper) GetTea(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "teaId" -------------
+	var teaId int
+
+	err = runtime.BindStyledParameter("simple", false, "teaId", chi.URLParam(r, "teaId"), &teaId)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "teaId", Err: err})
+		return
+	}
+
+	var handler = func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetTea(w, r, teaId)
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler(w, r.WithContext(ctx))
+}
+
 // GetTeas operation middleware
 func (siw *ServerInterfaceWrapper) GetTeas(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var handler = func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.GetTeas(w, r)
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler(w, r.WithContext(ctx))
+}
+
+// AddTea operation middleware
+func (siw *ServerInterfaceWrapper) AddTea(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var handler = func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.AddTea(w, r)
 	}
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -155,8 +216,107 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	}
 
 	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/tea/{teaId}", wrapper.GetTea)
+	})
+	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/teas", wrapper.GetTeas)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/teas", wrapper.AddTea)
 	})
 
 	return r
+}
+
+// Base64 encoded, gzipped, json marshaled Swagger object
+var swaggerSpec = []string{
+
+	"H4sIAAAAAAAC/9ySTW/bMAyG/4rB7WjE2cfJtw4rhgA7FbkVPXAWk6iwPkYy24JA/32g5HUJUBQ992SJ",
+	"Iun3fcgzTCnkFCmqwHgGJskpCtXLllDuloDdpxSVotoRc579hOpTHB4lRYvJdKCAdsqcMrH61kYJ65f+",
+	"YMgzwXh/hvdMOxhhNSjh6hTmd8N/HcOSKPZ4uxSVhx68UqidXqxuMmTYEkLpQU+ZYARkxhOU0gPTz6Nn",
+	"cjDeN2kPT0npxyNNCsXSHMnEPptDGOG7F+3SrjMk7d3HXaruvJonawU9/CKWVvFhtV6tTUDKFDF7GOFT",
+	"DfWQUQ/Vh+kfzkq4ccXue6pwDV5Fu3EwwjfSbe2dkTGQEktFeC1w89Xk6YG6JsRb0H4EPUQMi8KNg0sA",
+	"ykfqL+a2YPBRaU8MxaBfbcTH9fqC/xX2p7zham1KD59b0au351XTvWVO/NykvqDrzCGJ1nHLMQTkE4xw",
+	"R3rkKB124uN+bqQsZfi3oS/wF3iTKOa5UeghJ3nG/I1zbfnejvcb5zrsIv1e5l/K3wAAAP//THxw9wUF",
+	"AAA=",
+}
+
+// GetSwagger returns the content of the embedded swagger specification file
+// or error if failed to decode
+func decodeSpec() ([]byte, error) {
+	zipped, err := base64.StdEncoding.DecodeString(strings.Join(swaggerSpec, ""))
+	if err != nil {
+		return nil, fmt.Errorf("error base64 decoding spec: %s", err)
+	}
+	zr, err := gzip.NewReader(bytes.NewReader(zipped))
+	if err != nil {
+		return nil, fmt.Errorf("error decompressing spec: %s", err)
+	}
+	var buf bytes.Buffer
+	_, err = buf.ReadFrom(zr)
+	if err != nil {
+		return nil, fmt.Errorf("error decompressing spec: %s", err)
+	}
+
+	return buf.Bytes(), nil
+}
+
+var rawSpec = decodeSpecCached()
+
+// a naive cached of a decoded swagger spec
+func decodeSpecCached() func() ([]byte, error) {
+	data, err := decodeSpec()
+	return func() ([]byte, error) {
+		return data, err
+	}
+}
+
+// Constructs a synthetic filesystem for resolving external references when loading openapi specifications.
+func PathToRawSpec(pathToFile string) map[string]func() ([]byte, error) {
+	var res = make(map[string]func() ([]byte, error))
+	if len(pathToFile) > 0 {
+		res[pathToFile] = rawSpec
+	}
+
+	pathPrefix := path.Dir(pathToFile)
+
+	for rawPath, rawFunc := range externalRef0.PathToRawSpec(path.Join(pathPrefix, "./tea.yml")) {
+		if _, ok := res[rawPath]; ok {
+			// it is not possible to compare functions in golang, so always overwrite the old value
+		}
+		res[rawPath] = rawFunc
+	}
+	return res
+}
+
+// GetSwagger returns the Swagger specification corresponding to the generated code
+// in this file. The external references of Swagger specification are resolved.
+// The logic of resolving external references is tightly connected to "import-mapping" feature.
+// Externally referenced files must be embedded in the corresponding golang packages.
+// Urls can be supported but this task was out of the scope.
+func GetSwagger() (swagger *openapi3.T, err error) {
+	var resolvePath = PathToRawSpec("")
+
+	loader := openapi3.NewLoader()
+	loader.IsExternalRefsAllowed = true
+	loader.ReadFromURIFunc = func(loader *openapi3.Loader, url *url.URL) ([]byte, error) {
+		var pathToFile = url.String()
+		pathToFile = path.Clean(pathToFile)
+		getSpec, ok := resolvePath[pathToFile]
+		if !ok {
+			err1 := fmt.Errorf("path not found: %s", pathToFile)
+			return nil, err1
+		}
+		return getSpec()
+	}
+	var specData []byte
+	specData, err = rawSpec()
+	if err != nil {
+		return
+	}
+	swagger, err = loader.LoadFromData(specData)
+	if err != nil {
+		return
+	}
+	return
 }
