@@ -1,6 +1,3 @@
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen --old-config-style --config=./spec/config.schema.yml ./spec/schema.yml
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen --old-config-style --config=./tea/config.tea.yml ./tea/tea.yml
-
 package api
 
 import (

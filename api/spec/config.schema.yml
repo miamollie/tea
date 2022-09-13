@@ -1,5 +1,5 @@
 package: spec
-output: ./spec/schema.generated.go
+output: schema.generated.go
 generate:
   - types
   - spec
