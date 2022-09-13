@@ -1,0 +1,8 @@
+package: spec
+output: ./spec/schema.generated.go
+generate:
+  - types
+  - spec
+  - chi-server
+import-mapping:
+  ../tea/tea.yml: github.com/miamollie/tea/api/tea

@@ -9,14 +9,11 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net/http"
-	"net/url"
-	"path"
 	"strings"
 
 	"github.com/deepmap/oapi-codegen/pkg/runtime"
-	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/go-chi/chi/v5"
-	externalRef0 "github.com/miamollie/api/spec/tea"
+	externalRef0 "github.com/miamollie/tea/api/tea"
 )
 
 // TeasResponse defines model for TeasResponse.
@@ -231,14 +228,14 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/9ySTW/bMAyG/4rB7WjE2cfJtw4rhgA7FbkVPXAWk6iwPkYy24JA/32g5HUJUBQ992SJ",
-	"Iun3fcgzTCnkFCmqwHgGJskpCtXLllDuloDdpxSVotoRc579hOpTHB4lRYvJdKCAdsqcMrH61kYJ65f+",
-	"YMgzwXh/hvdMOxhhNSjh6hTmd8N/HcOSKPZ4uxSVhx68UqidXqxuMmTYEkLpQU+ZYARkxhOU0gPTz6Nn",
-	"cjDeN2kPT0npxyNNCsXSHMnEPptDGOG7F+3SrjMk7d3HXaruvJonawU9/CKWVvFhtV6tTUDKFDF7GOFT",
-	"DfWQUQ/Vh+kfzkq4ccXue6pwDV5Fu3EwwjfSbe2dkTGQEktFeC1w89Xk6YG6JsRb0H4EPUQMi8KNg0sA",
-	"ykfqL+a2YPBRaU8MxaBfbcTH9fqC/xX2p7zham1KD59b0au351XTvWVO/NykvqDrzCGJ1nHLMQTkE4xw",
-	"R3rkKB124uN+bqQsZfi3oS/wF3iTKOa5UeghJ3nG/I1zbfnejvcb5zrsIv1e5l/K3wAAAP//THxw9wUF",
-	"AAA=",
+	"H4sIAAAAAAAC/9ySTW8TQQyG/8rKcFxlw8dpb0VUKBKnKreqB7PjJFPtfGA7QBTNf0eeWUoiVdBzD1Fm",
+	"PLb39eP3DFMKOUWKKjCegUlyikL1siWUuyVg9ylFpah2xJxnP6H6FIdHSdFiMh0ooJ0yp0ysvrVRwvpP",
+	"vzDkmWC8P8Nbph2MsFoNSmi/1SnMb4a/YoYlW+zxdqksDz14pVDb/b9FEyTDlhBKD3rKBCMgM56glB6Y",
+	"vh89k4Pxvol8eEpK3x5pUiiW5kgm9tlmhRG+etEu7TqD09593KU6p1ebzlpBDz+IpVW8W61XaxOQMkXM",
+	"Hkb4UEM9ZNRDHabOcFbCjSt231PFbBgr5I2DEb6QbmvvjIyBlFgqzGuBm88mTw/UNSHegvYh6CFiWBRu",
+	"HFwCUD5Sf7HBBYOPSntiKEb+yhvv1+uLJVxhf8obrgxUevjYil7so5ev+JY58XPr+oSuszFJtO5cjiEg",
+	"n2CEO9IjR+mwEx/3c8NlKcMfw/5jCQKvl8c8NxQ95CTPELhxrtnwlQG4ca7DLtLPxQml/A4AAP//dCZ6",
+	"Jx4FAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file
@@ -269,54 +266,4 @@ func decodeSpecCached() func() ([]byte, error) {
 	return func() ([]byte, error) {
 		return data, err
 	}
-}
-
-// Constructs a synthetic filesystem for resolving external references when loading openapi specifications.
-func PathToRawSpec(pathToFile string) map[string]func() ([]byte, error) {
-	var res = make(map[string]func() ([]byte, error))
-	if len(pathToFile) > 0 {
-		res[pathToFile] = rawSpec
-	}
-
-	pathPrefix := path.Dir(pathToFile)
-
-	for rawPath, rawFunc := range externalRef0.PathToRawSpec(path.Join(pathPrefix, "./tea.yml")) {
-		if _, ok := res[rawPath]; ok {
-			// it is not possible to compare functions in golang, so always overwrite the old value
-		}
-		res[rawPath] = rawFunc
-	}
-	return res
-}
-
-// GetSwagger returns the Swagger specification corresponding to the generated code
-// in this file. The external references of Swagger specification are resolved.
-// The logic of resolving external references is tightly connected to "import-mapping" feature.
-// Externally referenced files must be embedded in the corresponding golang packages.
-// Urls can be supported but this task was out of the scope.
-func GetSwagger() (swagger *openapi3.T, err error) {
-	var resolvePath = PathToRawSpec("")
-
-	loader := openapi3.NewLoader()
-	loader.IsExternalRefsAllowed = true
-	loader.ReadFromURIFunc = func(loader *openapi3.Loader, url *url.URL) ([]byte, error) {
-		var pathToFile = url.String()
-		pathToFile = path.Clean(pathToFile)
-		getSpec, ok := resolvePath[pathToFile]
-		if !ok {
-			err1 := fmt.Errorf("path not found: %s", pathToFile)
-			return nil, err1
-		}
-		return getSpec()
-	}
-	var specData []byte
-	specData, err = rawSpec()
-	if err != nil {
-		return
-	}
-	swagger, err = loader.LoadFromData(specData)
-	if err != nil {
-		return
-	}
-	return
 }

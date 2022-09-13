@@ -16,7 +16,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./tea.yml#/components/schemas/Error"
+                $ref: "../tea/tea.yml#/components/schemas/Error"
     post:
       operationId: addTea
       summary: Add a new tea
@@ -28,7 +28,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./tea.yml#/components/schemas/Error"
+                $ref: "../tea/tea.yml#/components/schemas/Error"
   /tea/{teaId}:
     get:
       operationId: getTea
@@ -48,7 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./tea.yml#/components/schemas/Error"
+                $ref: "../tea/tea.yml#/components/schemas/Error"
 components:
   responses:
     TeasResponse:
@@ -61,14 +61,14 @@ components:
             properties:
               teas:
                 example:
-                  - $ref: "./tea.yml#/components/examples/teaExample"
+                  - $ref: "../tea/tea.yml#/components/examples/teaExample"
                 type: array
                 items:
-                  $ref: "./tea.yml#/components/schemas/Tea"
+                  $ref: "../tea/tea.yml#/components/schemas/Tea"
     TeaResponse:
       description: Single Tea
       content:
         application/json:
           schema:
-              $ref: "./tea.yml#/components/schemas/Tea"
+              $ref: "../tea/tea.yml#/components/schemas/Tea"
 
