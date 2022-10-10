@@ -10,9 +10,9 @@ type TeaService struct {
 }
 
 type Tea struct {
-	Id          int32
-	Name        string
-	Description string
+	Id          int32  `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 func NewTeaService(teas map[int64]Tea) *TeaService {
@@ -37,3 +37,11 @@ func (ts *TeaService) GetTea(w http.ResponseWriter, r *http.Request, teaId int) 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(ts.Teas)
 }
+
+// func (ts *TeaService) DeleteTea(w http.ResponseWriter, r *http.Request, teaId int) {
+// 	// add the tea
+// 	w.WriteHeader(http.StatusOK)
+// 	json.NewEncoder(w).Encode(ts.Teas)
+// }
+
+// TODO update like this: https://github.com/adamjq/go-rest-api-serverless/blob/master/internal/server/server.go

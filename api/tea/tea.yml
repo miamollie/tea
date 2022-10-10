@@ -18,9 +18,11 @@ components:
         name:
           type: integer
           format: int32
-        description:
-          type: integer
-          format: int32
+        description: 
+          $ref: "#/components/schemas/Description" 
+    Description:
+      type: string
+      format: string
   examples:
     teaExample:
       id: 1
