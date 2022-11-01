@@ -30,7 +30,19 @@ func init() {
 			_, _ = w.Write([]byte("Lookin' good :)"))
 		})
 
-		teaService := api.NewTeaService(make(map[int64]api.Tea)) //TODO actually fill out the teas
+		teaService := api.NewTeaService([]api.Tea{{
+			Id:          1,
+			Name:        "Barry's",
+			Description: "Best tea ever",
+		}, {
+			Id:          2,
+			Name:        "Chai",
+			Description: "Passible in a pinch",
+		}, {
+			Id:          3,
+			Name:        "Herbal",
+			Description: "Why bother... flavoured water.",
+		}})
 
 		spec.HandlerFromMux(teaService, chiRouter)
 

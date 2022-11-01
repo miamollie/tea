@@ -11,7 +11,7 @@ paths:
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:424795685451:function:TeaApiStack-TeaLambdaHandlerC1401C1C-SvKVPGwY4mYr/invocations"
         type: AWS_PROXY
-        httpMethod: POST
+        httpMethod: GET
       responses:
         "200":
           $ref: "#/components/responses/TeasResponse"
@@ -30,7 +30,7 @@ paths:
         httpMethod: POST
       responses:
         "200":
-          $ref: "#/components/responses/TeasResponse"
+          $ref: "#/components/responses/TeaResponse"
         "400":
           description: Bad request
           content:

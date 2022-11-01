@@ -11,7 +11,7 @@ paths:
       x-amazon-apigateway-integration:
         uri: ${API_LAMBDA_ARN}
         type: AWS_PROXY
-        httpMethod: POST
+        httpMethod: GET
       responses:
         "200":
           $ref: "#/components/responses/TeasResponse"
@@ -68,15 +68,11 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            required: [teas]
-            properties:
-              teas:
-                example:
-                  - $ref: "../tea/tea.yml#/components/examples/teaExample"
-                type: array
-                items:
-                  $ref: "../tea/tea.yml#/components/schemas/Tea"
+            type: array
+            items:
+              $ref: "../tea/tea.yml#/components/schemas/Tea"
+            example:
+              - $ref: "../tea/tea.yml#/components/examples/teaExample"
     TeaResponse:
       description: Single Tea
       content:

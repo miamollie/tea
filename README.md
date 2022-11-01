@@ -26,6 +26,7 @@ curl --request GET --url http://localhost:8080/teas/{id}
 ```
 
 ### Deployment
+
 Backend ...
 Infra managed with CDK. See [ops/cdk][./ops/cdk/readme.md]
 
@@ -38,6 +39,7 @@ Frontend... https://developers.cloudflare.com/pages/framework-guides/deploy-a-qw
 - github action CI https://medium.com/geekculture/how-to-automate-aws-cdk-deployments-using-github-actions-cec5db24ca8d
 - add architecture diagram
 - include swagger middleware for validating API doc
+- add DB
 - auth: https://docs.aws.amazon.com/cdk/api/v1/docs/aws-apigateway-readme.html#lambda-based-token-authorizer
 - observability
 - f/e with Qwik and cloudflare workers

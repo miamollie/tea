@@ -6,7 +6,7 @@ import (
 )
 
 type TeaService struct {
-	Teas map[int64]Tea
+	Teas []Tea
 }
 
 type Tea struct {
@@ -15,7 +15,7 @@ type Tea struct {
 	Description string `json:"description"`
 }
 
-func NewTeaService(teas map[int64]Tea) *TeaService {
+func NewTeaService(teas []Tea) *TeaService {
 	return &TeaService{
 		Teas: teas,
 	}
