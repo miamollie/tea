@@ -1,6 +1,6 @@
 {
-  "name": "my-qwik-basic-starter",
-  "description": "Recommended for your first Qwik app (comes with Qwik City)",
+  "name": "tea",
+  "description": "UI for the teas api",
   "engines": {
     "node": ">=15.0.0"
   },
