@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -13,10 +15,10 @@ import (
 	"github.com/miamollie/tea/api/spec"
 )
 
-const defaultPort = "8080"
+const port = ":8080"
 
 var adapter *chiadapter.ChiLambda
-var chiRouter *chi.Router
+var chiRouter *chi.Mux
 
 // init function is executed when your handler is loaded
 func init() {
@@ -30,19 +32,7 @@ func init() {
 			_, _ = w.Write([]byte("Lookin' good :)"))
 		})
 
-		teaService := api.NewTeaService([]api.Tea{{
-			Id:          1,
-			Name:        "Barry's",
-			Description: "Best tea ever",
-		}, {
-			Id:          2,
-			Name:        "Chai",
-			Description: "Passible in a pinch",
-		}, {
-			Id:          3,
-			Name:        "Herbal",
-			Description: "Why bother... flavoured water.",
-		}})
+		teaService := api.NewTeaService()
 
 		spec.HandlerFromMux(teaService, chiRouter)
 
@@ -64,5 +54,12 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 func main() {
 	log.Printf("Main called")
 
-	lambda.Start(Handler)
+	if os.Getenv("AWS_LAMBDA_FUNCTION_NAME") == "" {
+		if chiRouter == nil {
+			fmt.Printf("NO CHI ROUTER defined")
+		}
+		log.Fatal(http.ListenAndServe(port, chiRouter))
+	} else {
+		lambda.Start(Handler)
+	}
 }

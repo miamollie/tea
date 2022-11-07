@@ -15,7 +15,21 @@ type Tea struct {
 	Description string `json:"description"`
 }
 
-func NewTeaService(teas []Tea) *TeaService {
+var teas = []Tea{{
+	Id:          1,
+	Name:        "Barry's",
+	Description: "Best tea ever",
+}, {
+	Id:          2,
+	Name:        "Chai",
+	Description: "Passible in a pinch",
+}, {
+	Id:          3,
+	Name:        "Herbal",
+	Description: "Why bother... flavoured water.",
+}}
+
+func NewTeaService() *TeaService {
 	return &TeaService{
 		Teas: teas,
 	}
