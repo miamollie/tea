@@ -6,13 +6,14 @@ import Teas from "~/components/teas/teas";
 export default component$(() => {
   return (
     <div>
-      <h1>Welcome to Teas</h1>
+      <h1>Tea</h1>
       <Teas />
-      <Link href="/create">Create a new tea</Link>
+      {/* TODO make this a button look */}
+      <Link href="/create">+ Add a tea</Link>
     </div>
   );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Teas",
+  title: "Tea",
 };
