@@ -17,9 +17,7 @@ import (
 )
 
 // TeasResponse defines model for TeasResponse.
-type TeasResponse struct {
-	Teas []externalRef0.Tea `json:"teas"`
-}
+type TeasResponse = []externalRef0.Tea
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -228,14 +226,14 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/9ySTW8TQQyG/8rKcFxlw8dpb0VUKBKnKreqB7PjJFPtfGA7QBTNf0eeWUoiVdBzD1Fm",
-	"PLb39eP3DFMKOUWKKjCegUlyikL1siWUuyVg9ylFpah2xJxnP6H6FIdHSdFiMh0ooJ0yp0ysvrVRwvpP",
-	"vzDkmWC8P8Nbph2MsFoNSmi/1SnMb4a/YoYlW+zxdqksDz14pVDb/b9FEyTDlhBKD3rKBCMgM56glB6Y",
-	"vh89k4Pxvol8eEpK3x5pUiiW5kgm9tlmhRG+etEu7TqD09593KU6p1ebzlpBDz+IpVW8W61XaxOQMkXM",
-	"Hkb4UEM9ZNRDHabOcFbCjSt231PFbBgr5I2DEb6QbmvvjIyBlFgqzGuBm88mTw/UNSHegvYh6CFiWBRu",
-	"HFwCUD5Sf7HBBYOPSntiKEb+yhvv1+uLJVxhf8obrgxUevjYil7so5ev+JY58XPr+oSuszFJtO5cjiEg",
-	"n2CEO9IjR+mwEx/3c8NlKcMfw/5jCQKvl8c8NxQ95CTPELhxrtnwlQG4ca7DLtLPxQml/A4AAP//dCZ6",
-	"Jx4FAAA=",
+	"H4sIAAAAAAAC/9yTTWsbMRCG/8oyzVH2uh+nvW2IKYakMY6hLaWYwRrbKquPSuMmrtF/L6PdpjEEkvbQ",
+	"Qw4L0kiaeed5Z4+w9jZ4R44TNEeIlIJ3icpmSZgWQ0D2a++YHMsSQ+jMGtl4V39L3kksrXdkUVZ0hzZ0",
+	"BM2XI5xF2kAD43HNhPKND7Z7Vf8pWw+3kxxOh5f5qwLDZIuOp1P0pVO9JISsgA+BoAGMEQ+Qc1agKa2j",
+	"CaIXGrg0iSu/qaTB/ty4jZdSbFh0AxOCgh8UU//i9XgynkhqH8hhMNDA2xJSEJB3RWZRd2TCmc6y31JB",
+	"5QPFAmqmoYH3xMuSO2BES0wxFUynAmcXIo93VPVCjASlEChwaAeFMw0KIn3fm0gaGo57Ug9cGCgYx7Sl",
+	"CFmYnvj7ZjJ5gPcE6P29+mQIsoJ3/aNnz8LzzZvG6ONjdp2jrqRNSgxymvbWYjxAAwvifXSpwioZt+1+",
+	"47obocWf3o0wmC0y3eJhVDD0RoisHXO4It75Ysp0CfdT0368Wc0X158+g4J9FKfPju18trpsr84v2lW7",
+	"+JB7kdJMesLoBC+Xedf9P9wKgk+PUG617n+nFwa51brCytHtPyKeX9/8/Ujn/CsAAP//Xy1T2A8GAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

@@ -1,7 +1,9 @@
 header {
   display: flex;
+  padding: 0 15px;
+  align-items: center;
   background: white;
-  border-bottom: 10px solid var(--qwik-dark-purple);
+  border-bottom: 10px solid var(--base-light-tan);
 }
 
 header .logo a {

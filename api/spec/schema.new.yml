@@ -9,6 +9,7 @@ paths:
       operationId: getTeas
       summary: Returns all tea
       x-amazon-apigateway-integration:
+      # every time the lambda handler gets re-deployed, this value is updated and will need to be reset here
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:424795685451:function:TeaApiStack-TeaLambdaHandlerC1401C1C-SvKVPGwY4mYr/invocations"
         type: AWS_PROXY
         httpMethod: POST
@@ -20,7 +21,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../tea/tea.yml#/components/schemas/Error"
+                $ref: "../tea/api.tea.yml#/components/schemas/Error"
     post:
       operationId: addTea
       summary: Add a new tea
@@ -30,13 +31,13 @@ paths:
         httpMethod: POST
       responses:
         "200":
-          $ref: "#/components/responses/TeasResponse"
+          $ref: "#/components/responses/TeaResponse"
         "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: "../tea/tea.yml#/components/schemas/Error"
+                $ref: "../tea/api.tea.yml#/components/schemas/Error"
   /tea/{teaId}:
     get:
       operationId: getTea
@@ -44,7 +45,7 @@ paths:
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:424795685451:function:TeaApiStack-TeaLambdaHandlerC1401C1C-SvKVPGwY4mYr/invocations"
         type: AWS_PROXY
-        httpMethod: GET
+        httpMethod: POST
       parameters:
         - in: path
           name: teaId
@@ -60,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../tea/tea.yml#/components/schemas/Error"
+                $ref: "../tea/api.tea.yml#/components/schemas/Error"
 components:
   responses:
     TeasResponse:
@@ -73,13 +74,13 @@ components:
             properties:
               teas:
                 example:
-                  - $ref: "../tea/tea.yml#/components/examples/teaExample"
+                  - $ref: "../tea/api.tea.yml#/components/examples/teaExample"
                 type: array
                 items:
-                  $ref: "../tea/tea.yml#/components/schemas/Tea"
+                  $ref: "../tea/api.tea.yml#/components/schemas/Tea"
     TeaResponse:
       description: Single Tea
       content:
         application/json:
           schema:
-            $ref: "../tea/tea.yml#/components/schemas/Tea"
+            $ref: "../tea/api.tea.yml#/components/schemas/Tea"

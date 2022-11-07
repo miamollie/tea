@@ -2,11 +2,12 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
 type TeaService struct {
-	Teas map[int64]Tea
+	Teas []Tea
 }
 
 type Tea struct {
@@ -15,27 +16,46 @@ type Tea struct {
 	Description string `json:"description"`
 }
 
-func NewTeaService(teas map[int64]Tea) *TeaService {
+var teas = []Tea{{
+	Id:          1,
+	Name:        "Barry's",
+	Description: "Best tea ever",
+}, {
+	Id:          2,
+	Name:        "Chai",
+	Description: "Passible in a pinch",
+}, {
+	Id:          3,
+	Name:        "Herbal",
+	Description: "Why bother... flavoured water.",
+}}
+
+func NewTeaService() *TeaService {
 	return &TeaService{
 		Teas: teas,
 	}
 }
 
 func (ts *TeaService) GetTeas(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("GET TEAS")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(ts.Teas)
 }
 
 func (ts *TeaService) AddTea(w http.ResponseWriter, r *http.Request) {
-	// add the tea
+	fmt.Printf("ADD TEA")
+
+	// add the tea todo will need to add it for reals too
+	t := append(ts.Teas, Tea{5, "Some tea", "This is a new tea!"})
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(ts.Teas)
+	json.NewEncoder(w).Encode(t[0])
 }
 
 func (ts *TeaService) GetTea(w http.ResponseWriter, r *http.Request, teaId int) {
-	// add the tea
+	fmt.Printf("GET TEA")
+
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(ts.Teas)
+	json.NewEncoder(w).Encode(ts.Teas[teaId])
 }
 
 // func (ts *TeaService) DeleteTea(w http.ResponseWriter, r *http.Request, teaId int) {

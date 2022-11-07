@@ -5,4 +5,4 @@ generate:
   - spec
   - chi-server
 import-mapping:
-  ../tea/tea.yml: github.com/miamollie/tea/api/tea
+  ../tea/api.tea.yml: github.com/miamollie/tea/api/tea
