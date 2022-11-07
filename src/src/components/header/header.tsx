@@ -8,12 +8,10 @@ export default component$(() => {
     <header>
       <ul>
         <li>
-          <a href="/create">
-            Create
-          </a>
+          <a href="/create">Create</a>
         </li>
         <li>
-          <a href="todo" target="_blank">
+          <a href="http://github.com/miamollie/teas" target="_blank">
             Github
           </a>
         </li>

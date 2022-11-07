@@ -8,6 +8,9 @@ interface ProductData {
 
 export const onGet: RequestHandler<ProductData> = async ({ params }) => {
   // put your DB access here, we are hard coding a response for simplicity.
+
+    // const { pathname, params } = useLocation();
+// 
   return {
     skuId: params.skuId,
     price: 123.45,
