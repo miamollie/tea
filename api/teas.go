@@ -28,14 +28,15 @@ func (ts *TeaService) GetTeas(w http.ResponseWriter, r *http.Request) {
 
 func (ts *TeaService) AddTea(w http.ResponseWriter, r *http.Request) {
 	// add the tea
+	t := append(ts.Teas, Tea{5, "Some tea", "This is a new tea!"})
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(ts.Teas)
+	json.NewEncoder(w).Encode(t[0])
 }
 
 func (ts *TeaService) GetTea(w http.ResponseWriter, r *http.Request, teaId int) {
 	// add the tea
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(ts.Teas)
+	json.NewEncoder(w).Encode(ts.Teas[0])
 }
 
 // func (ts *TeaService) DeleteTea(w http.ResponseWriter, r *http.Request, teaId int) {

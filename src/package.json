@@ -19,6 +19,7 @@
     "preview": "qwik build preview && vite preview --open",
     "serve": "wrangler pages dev ./dist",
     "start": "vite --open --mode ssr",
+    "oapi-types": "openapi-typescript '../api/**/api.*.yml' --output src/types/oapi.ts",
     "qwik": "qwik"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "typescript": "4.8.4",
     "vite": "3.1.7",
     "vite-tsconfig-paths": "3.5.0",
-    "wrangler": "beta"
+    "wrangler": "beta",
+    "openapi-typescript": "^5.4.1"
   }
 }
