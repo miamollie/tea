@@ -39,7 +39,9 @@ export async function getTeas(): Promise<Tea[]> {
     "FETCH",
     `https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas`
   );
-  const resp = await fetch(`http://localhost:8080/teas`);
+  const resp = await fetch(
+    `https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas`
+  );
   console.log("FETCH resolved");
   console.log(resp.status);
   const json = await resp.json();

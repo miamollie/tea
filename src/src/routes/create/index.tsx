@@ -27,13 +27,7 @@ export default component$(() => {
         console.table(error);
         return <>Error: {error.message}</>;
       }}
-      onResolved={(res) => (
-        <ul>
-          {res.map((r) => (
-            <li>{r}</li>
-          ))}
-        </ul>
-      )}
+      onResolved={(res) => <p>{res}</p>}
     />
   );
 });
@@ -43,6 +37,7 @@ export async function postTea(controller?: AbortController): Promise<string> {
     `https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas`,
     {
       signal: controller?.signal,
+      method: "POST",
     }
   );
   console.log("FETCH resolved");

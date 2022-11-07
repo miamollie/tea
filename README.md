@@ -30,19 +30,23 @@ curl --request GET --url http://localhost:8080/teas/{id}
 Backend ...
 Infra managed with CDK. See [ops/cdk][./ops/cdk/readme.md]
 
-Endpoint currently dpeloyed to: https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas
+`x-amazon-apigateway-integration` Is set to be the execution endpoint of the lambda handler and must be a POST request
+-> https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-integrations.html
+
+Endpoint currently deployed to: https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas
 
 Frontend... https://developers.cloudflare.com/pages/framework-guides/deploy-a-qwik-site/
 
 ### TODO
 
+- Env variables
+- use TS types generated from OAPI schema
 - github action CI https://medium.com/geekculture/how-to-automate-aws-cdk-deployments-using-github-actions-cec5db24ca8d
 - add architecture diagram
-- include swagger middleware for validating API doc
+- include swagger middleware for validating API
 - add DB
 - auth: https://docs.aws.amazon.com/cdk/api/v1/docs/aws-apigateway-readme.html#lambda-based-token-authorizer
 - observability
-- f/e with Qwik and cloudflare workers
 
 ### References
 
