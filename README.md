@@ -35,7 +35,7 @@ Infra managed with CDK. See [ops/cdk][./ops/cdk/readme.md]
 
 Endpoint currently deployed to: https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas
 
-Frontend... https://developers.cloudflare.com/pages/framework-guides/deploy-a-qwik-site/
+Frontend... Qwik UI deployed with cloudflare pages https://tea-fm0.pages.dev/
 
 ### TODO
 
