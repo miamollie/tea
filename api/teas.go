@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -36,11 +37,14 @@ func NewTeaService() *TeaService {
 }
 
 func (ts *TeaService) GetTeas(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("GET TEAS")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(ts.Teas)
 }
 
 func (ts *TeaService) AddTea(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("ADD TEA")
+
 	// add the tea todo will need to add it for reals too
 	t := append(ts.Teas, Tea{5, "Some tea", "This is a new tea!"})
 	w.WriteHeader(http.StatusOK)
@@ -48,6 +52,8 @@ func (ts *TeaService) AddTea(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ts *TeaService) GetTea(w http.ResponseWriter, r *http.Request, teaId int) {
+	fmt.Printf("GET TEA")
+
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(ts.Teas[teaId])
 }
