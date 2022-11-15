@@ -36,9 +36,7 @@ export function Tea({ name, description }: Tea) {
 }
 
 export async function getTea(id: string): Promise<Tea> {
-  const resp = await fetch(
-    `https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/tea/${id}`
-  );
+  const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL}/tea/${id}`);
   console.log("FETCH resolved");
   console.log(resp.status);
   const json = await resp.json();

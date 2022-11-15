@@ -8,7 +8,7 @@ interface Tea {
 }
 
 export default component$(() => {
-  const teasResource = useResource$<Tea[]>(() => getTeas());
+  const teasResource = useResource$<Tea[]>(getTeas);
 
   console.log("Render");
   return (
@@ -35,13 +35,7 @@ export default component$(() => {
 
 // TODO how to env variables?
 export async function getTeas(): Promise<Tea[]> {
-  console.log(
-    "FETCH",
-    `https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas`
-  );
-  const resp = await fetch(
-    `https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas`
-  );
+  const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL}/teas`);
   console.log("FETCH resolved");
   console.log(resp.status);
   const json = await resp.json();
