@@ -39,13 +39,14 @@ Frontend... Qwik UI deployed with cloudflare pages https://tea-fm0.pages.dev/
 
 ### TODO
 
-- Env variables
+- Fix CORS error
+- Env variables: https://vitejs.dev/guide/env-and-mode.html and config file for server
 - use TS types generated from OAPI schema
-- github action CI https://medium.com/geekculture/how-to-automate-aws-cdk-deployments-using-github-actions-cec5db24ca8d
+- auth (only auth can `create`?): https://docs.aws.amazon.com/cdk/api/v1/docs/aws-apigateway-readme.html#lambda-based-token-authorizer
 - add architecture diagram
+- github action CI https://medium.com/geekculture/how-to-automate-aws-cdk-deployments-using-github-actions-cec5db24ca8d
 - include swagger middleware for validating API
 - add DB
-- auth: https://docs.aws.amazon.com/cdk/api/v1/docs/aws-apigateway-readme.html#lambda-based-token-authorizer
 - observability
 
 ### References

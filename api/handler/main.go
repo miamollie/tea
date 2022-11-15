@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	chiadapter "github.com/awslabs/aws-lambda-go-api-proxy/chi"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 	"github.com/miamollie/tea/api"
 	"github.com/miamollie/tea/api/spec"
 )
@@ -32,24 +33,28 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 func main() {
 	log.Printf("Main called")
 
-	chiRouter := chi.NewRouter()
+	r := chi.NewRouter()
 
-	chiRouter.Get("/healthcheck", func(w http.ResponseWriter, r *http.Request) {
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins: []string{"https://tea-fm0.pages.dev", "http://127.0.0.1:5173"}, //TODO env variables
+	}))
+
+	r.Get("/healthcheck", func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte("Lookin' good :)"))
 	})
 
 	teaService := api.NewTeaService()
 
-	spec.HandlerFromMux(teaService, chiRouter)
+	spec.HandlerFromMux(teaService, r)
 
 	// using a chiadapter the handler will use the go-chi router to handle the requests
-	adapter = chiadapter.New(chiRouter)
+	adapter = chiadapter.New(r)
 
 	if os.Getenv("AWS_LAMBDA_FUNCTION_NAME") == "" {
-		if chiRouter == nil {
+		if r == nil {
 			fmt.Printf("NO CHI ROUTER defined")
 		}
-		log.Fatal(http.ListenAndServe(port, chiRouter))
+		log.Fatal(http.ListenAndServe(port, r))
 	} else {
 		lambda.Start(Handler)
 	}

@@ -2,22 +2,8 @@
 import { component$, Resource, useResource$ } from "@builder.io/qwik";
 
 export default component$(() => {
-  const teasResource = useResource$<string>(({ cleanup }) => {
-    // We need a way to re-run fetching data whenever the `github.org` changes.
-    // Use `track` to trigger re-running of the this data fetching function.
-    // track(() => github.org);
+  const teasResource = useResource$<string>(postTea);
 
-    // A good practice is to use `AbortController` to abort the fetching of data if
-    // new request comes in. We create a new `AbortController` and register a `cleanup`
-    // function which is called when this function re-runs.
-    const controller = new AbortController();
-    cleanup(() => controller.abort());
-
-    // Fetch the data and return the promises.
-    return postTea(controller);
-  });
-
-  console.log("Render");
   return (
     <Resource
       value={teasResource}
@@ -32,14 +18,10 @@ export default component$(() => {
   );
 });
 
-export async function postTea(controller?: AbortController): Promise<string> {
-  const resp = await fetch(
-    `https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas`,
-    {
-      signal: controller?.signal,
-      method: "POST",
-    }
-  );
+export async function postTea(): Promise<string> {
+  const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL}/teas`, {
+    method: "POST",
+  });
   console.log("FETCH resolved");
   const json = await resp.json();
   console.log(json);

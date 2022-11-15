@@ -17,15 +17,15 @@ type Tea struct {
 }
 
 var teas = []Tea{{
-	Id:          1,
+	Id:          0,
 	Name:        "Barry's",
 	Description: "Best tea ever",
 }, {
-	Id:          2,
+	Id:          1,
 	Name:        "Chai",
 	Description: "Passible in a pinch",
 }, {
-	Id:          3,
+	Id:          2,
 	Name:        "Herbal",
 	Description: "Why bother... flavoured water.",
 }}
