@@ -40,6 +40,21 @@ Frontend... NextJs on Cloudflare pages.
 - `/tea/{id}` for info about a specific tea
 - `/create` to add a new tea [route requires auth access and api needs auth access too]
 
+
+## Auth
+
+- need to proxy api requests through the nextjs api endpoints (no cors then anyway, server to server)
+- add customised header component to say hi and have logout everywhere
+- protect `/create` route, redirects to a sorry "go home" 403 page if you can't log in
+- need to protect api routes by locking down the lambda so it can only be requested from the next app?
+https://www.wellarchitectedlabs.com/security/300_labs/300_multilayered_api_security_with_cognito_and_waf/3_prevent_requests_from_accessing_api_directly/
+
+https://www.prisma.io/blog/fullstack-nextjs-graphql-prisma-3-clxbrcqppv#add-the-auth0-sdk
+
+
+
+https://github.com/auth0/nextjs-auth0/blob/main/ARCHITECTURE.md
+
 ### TODO
 - use TS types generated from OAPI schema
 - auth (only auth can `create`?): https://docs.aws.amazon.com/cdk/api/v1/docs/aws-apigateway-readme.html#lambda-based-token-authorizer
