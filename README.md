@@ -35,12 +35,12 @@ Infra managed with CDK. See [ops/cdk][./ops/cdk/readme.md]
 
 Endpoint currently deployed to: https://z4106slus8.execute-api.us-east-1.amazonaws.com/prod/teas
 
-Frontend... Qwik UI deployed with cloudflare pages https://tea-fm0.pages.dev/
+Frontend... NextJs on Cloudflare pages.
+- `/` index route for a list of teas
+- `/tea/{id}` for info about a specific tea
+- `/create` to add a new tea [route requires auth access and api needs auth access too]
 
 ### TODO
-
-- Fix CORS error
-- Env variables: https://vitejs.dev/guide/env-and-mode.html and config file for server
 - use TS types generated from OAPI schema
 - auth (only auth can `create`?): https://docs.aws.amazon.com/cdk/api/v1/docs/aws-apigateway-readme.html#lambda-based-token-authorizer
 - add architecture diagram
