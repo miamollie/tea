@@ -15,3 +15,7 @@
 # vendor/
 
 /dist
+.vercel
+
+.env.local
+.env
