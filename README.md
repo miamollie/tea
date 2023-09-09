@@ -13,9 +13,13 @@ Updating the schema
 
 ### Running the app
 
-Bring up the app
+Bring up the backend app
 
-`go run main.go`
+```bash
+
+cd api/handler
+go run main.go
+```
 
 test the endpoints with curl or in vscode using the `requests.http` files
 
@@ -50,8 +54,6 @@ https://github.com/auth0/nextjs-auth0#edge-for-middleware-and-the-edge-runtime
 - protect `/create` route, redirects to a sorry "go home" 403 page if you can't log in
 - need to protect api routes by locking down the lambda so it can only be requested from the next app?
 https://www.wellarchitectedlabs.com/security/300_labs/300_multilayered_api_security_with_cognito_and_waf/3_prevent_requests_from_accessing_api_directly/
-
-https://www.prisma.io/blog/fullstack-nextjs-graphql-prisma-3-clxbrcqppv#add-the-auth0-sdk
 
 
 

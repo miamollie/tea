@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+
 
 // @ts-ignore
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
