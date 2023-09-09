@@ -43,6 +43,8 @@ Frontend... NextJs on Cloudflare pages.
 
 ## Auth
 
+https://github.com/auth0/nextjs-auth0#edge-for-middleware-and-the-edge-runtime
+
 - need to proxy api requests through the nextjs api endpoints (no cors then anyway, server to server)
 - add customised header component to say hi and have logout everywhere
 - protect `/create` route, redirects to a sorry "go home" 403 page if you can't log in

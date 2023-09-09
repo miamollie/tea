@@ -11,12 +11,12 @@ function Create() {
   if (user) {
     return (
       <div>
-        Welcome {user.nickname}! <Link href="/api/auth/logout">Logout</Link>
+        Welcome {user.nickname}! <a href="/api/auth/logout">Logout</a>
       </div>
     );
   }
 
-  return <Link href="/api/auth/login">Login</Link>;
+  return <a href="/api/auth/login">Login</a>;
 }
 
 export default withPageAuthRequired(Create, {
