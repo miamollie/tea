@@ -37,4 +37,6 @@ export default function Test({ user }) {
 
 export const getServerSideProps = withPageAuthRequired();
 
-export const runtime = "nodejs";
+export const config = {
+  runtime: "edge",
+};

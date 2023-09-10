@@ -20,5 +20,6 @@ export default withApiAuthRequired(async function shows(req, res) {
   }
 });
 
-export const runtime = "nodejs";
-
+export const config = {
+  runtime: "edge",
+};

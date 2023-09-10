@@ -11,3 +11,7 @@ export default async function hello(req: NextRequest) {
     },
   });
 }
+
+export const config = {
+  runtime: "edge",
+};
