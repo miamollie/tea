@@ -8,9 +8,7 @@ import {
 const AUTH0_BASE_URL =
   process.env.AUTH0_BASE_URL || process.env.NEXT_PUBLIC_AUTH0_BASE_URL;
 
-const redirectUri = `${AUTH0_BASE_URL}/api/page-router-auth/callback`;
-
-console.log("AUTH0_BASE_URL: " + AUTH0_BASE_URL);
+const redirectUri = `${AUTH0_BASE_URL}/api/auth/callback`;
 
 export default handleAuth({
   login: handleLogin({
@@ -18,6 +16,6 @@ export default handleAuth({
   }),
   callback: handleCallback({ redirectUri }),
   logout: handleLogout({
-    returnTo: `${AUTH0_BASE_URL}/page-router`,
+    returnTo: `${AUTH0_BASE_URL}/`,
   }),
 });
