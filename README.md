@@ -29,6 +29,15 @@ curl --request POST --url http://localhost:8080/teas
 curl --request GET --url http://localhost:8080/teas/{id}
 ```
 
+
+Bringing up the graph server:
+```bash
+
+cd graph && npm run start
+```
+
+Server ready at: http://localhost:4000/
+
 ### Deployment
 
 Backend ...
