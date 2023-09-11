@@ -10,6 +10,8 @@ const AUTH0_BASE_URL =
 
 const redirectUri = `${AUTH0_BASE_URL}/api/page-router-auth/callback`;
 
+console.log("AUTH0_BASE_URL: " + AUTH0_BASE_URL);
+
 export default handleAuth({
   login: handleLogin({
     authorizationParams: { redirect_uri: redirectUri },
