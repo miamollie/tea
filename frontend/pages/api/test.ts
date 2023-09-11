@@ -19,7 +19,3 @@ export default withApiAuthRequired(async function shows(req, res) {
     res.status(error.status || 500).json({ error: error.message });
   }
 });
-
-export const config = {
-  runtime: "edge",
-};
