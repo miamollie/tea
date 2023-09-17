@@ -1,0 +1,38 @@
+overwrite: true
+schema: graphql/**/*.graphql
+hooks:
+  afterAllFileWrite:
+    - prettier --write
+generates:
+  graphql/types.generated.ts:
+    plugins:
+        - add:
+            content: '/* eslint-disable */'
+        - typescript
+    config:
+        enumsAsTypes: true
+        nonOptionalTypename: true
+        scalars:
+            Time: string
+  components:
+    documents:
+      - components/**/*.graphql
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: ~graph-types
+      extension: .generated.tsx
+    plugins:
+      - add:
+          content: "/* eslint-disable */"
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      avoidOptionals:
+        field: true
+        inputValue: true
+        object: false
+      enumsAsTypes: true
+      nonOptionalTypename: true
+      documentMode: documentNode
+      withComponent: true
+      preResolveTypes: true
