@@ -1,6 +1,6 @@
-query books {
-  books {
-    title
-    author
+query teas {
+  teas {
+    id
+    name
   }
 }

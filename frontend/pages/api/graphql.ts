@@ -4,17 +4,34 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
 
 import { typeDefs } from "../../graphql/schemas";
 import resolvers from "../..//graphql/resolvers";
-// import allowCors from "@/utils/cors";
+import { TeaAPI } from "../../graphql/datasources/teaApi";
+import { NextApiRequest } from "next";
 
-const apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
-    // @ts-ignore
+export interface ContextValue {
+  dataSources: {
+    teaAPI: TeaAPI;
+  };
+}
+
+const apolloServer = new ApolloServer<ContextValue>({
+  typeDefs,
+  resolvers,
+  // @ts-ignore
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
 });
 
-const handler = startServerAndCreateNextHandler(apolloServer, {
-  context: async (req, res) => ({ req, res }),
-});
+const handler = startServerAndCreateNextHandler<NextApiRequest, ContextValue>(
+  apolloServer,
+  {
+    context: async () => {
+      const { cache } = apolloServer;
+      return {
+        // We create new instances of our data sources with each request,
+        // passing in our server's cache.
+        dataSources: { teaAPI: new TeaAPI({ cache }) },
+      };
+    },
+  }
+);
 
 export default handler;

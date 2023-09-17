@@ -28,31 +28,22 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
-export type AddBookMutationResponse = {
-  __typename: "AddBookMutationResponse";
-  book?: Maybe<Book>;
-  code: Scalars["String"]["output"];
-  message: Scalars["String"]["output"];
-  success: Scalars["Boolean"]["output"];
-};
-
-export type Book = {
-  __typename: "Book";
-  author: Scalars["String"]["output"];
-  title: Scalars["String"]["output"];
-};
-
 export type Mutation = {
   __typename: "Mutation";
-  addBook?: Maybe<AddBookMutationResponse>;
+  addTea: Tea;
 };
 
-export type MutationAddBookArgs = {
-  author?: InputMaybe<Scalars["String"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
+export type MutationAddTeaArgs = {
+  name: Scalars["String"]["input"];
 };
 
 export type Query = {
   __typename: "Query";
-  books?: Maybe<Array<Maybe<Book>>>;
+  teas: Array<Tea>;
+};
+
+export type Tea = {
+  __typename: "Tea";
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };

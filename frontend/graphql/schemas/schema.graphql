@@ -1,19 +1,13 @@
 type Query {
-  books: [Book]
+  teas: [Tea!]!
+  tea(teaId: ID!): Tea!
 }
 
-type Book {
-  title: String!
-  author: String!
-}
-
-type AddBookMutationResponse {
-  code: String!
-  success: Boolean!
-  message: String!
-  book: Book
+type Tea {
+  id: ID!
+  name: String!
 }
 
 type Mutation {
-  addBook(title: String, author: String): AddBookMutationResponse
+  addTea(name: String!): Tea!
 }

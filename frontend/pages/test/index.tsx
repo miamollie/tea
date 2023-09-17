@@ -3,11 +3,11 @@ import Link from "next/link";
 
 // @ts-ignore
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { useBooksQuery } from "../../components/test/test.generated";
+import { useTeasQuery } from "../../components/test/test.generated";
 
 // @ts-ignore
 export default function Test({ user }) {
-  const { data, loading, error } = useBooksQuery();
+  const { data, loading, error } = useTeasQuery();
   return (
     <>
       <div className="mb-5" data-testid="ssr">
@@ -15,7 +15,7 @@ export default function Test({ user }) {
         <div data-testid="ssr-text">
           {loading && "Loading..."}
           {error && "Error..."}
-          {data && data.books?.map((b) => b?.title)}
+          {data && data.teas?.map((b) => b?.name)}
         </div>
       </div>
     </>
